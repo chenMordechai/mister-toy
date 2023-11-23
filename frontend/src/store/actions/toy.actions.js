@@ -30,6 +30,7 @@ export function removeToy(toyId) {
         })
 }
 
+
 // export function removeToyOptimistic(toyId) {
 //     store.dispatch({ type: REMOVE_TOY, toyId })
 //     return toyService.remove(toyId)

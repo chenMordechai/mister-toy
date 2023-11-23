@@ -1,0 +1,10 @@
+.toy-edit form {
+    display: grid;
+    grid-template-columns: 80px 150px;
+    gap: 10px;
+    justify-items: start;
+}
+
+.toy-edit form input {
+    margin: 0;
+}

@@ -33,7 +33,7 @@ export function ToyIndex() {
     return (
         <section className="toy-index">
             <h2>Toy Index</h2>
-            <button>Add Toy</button>
+            <button>Add New Toy</button>
             {isLoading && 'Loading..'}
             {!isLoading && <ToyList toys={toys} onRemoveToy={onRemoveToy} />}
 

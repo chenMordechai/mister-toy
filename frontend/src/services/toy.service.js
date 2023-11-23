@@ -7,7 +7,7 @@ const PAGE_SIZE = 3
 
 export const toyService = {
     query,
-    // getById,
+    getById,
     save,
     remove,
     // getEmptyToy,

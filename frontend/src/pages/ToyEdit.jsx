@@ -6,19 +6,19 @@ import { toyService } from "../services/toy.service"
 
 import { SET_IS_LOADING } from "../store/reducers/toy.reducer";
 import { saveToy } from '../store/actions/toy.actions.js'
-
+import { Label } from "../cpms/Label.jsx";
 
 export function ToyEdit() {
 
     const dispatch = useDispatch()
-
-    const [toyToEdit, setToyToEdit] = useState(null)
-
+    const [toyToEdit, setToyToEdit] = useState(toyService.getEmptyToy())
+    const labels = toyService.getLabels()
     const { toyId } = useParams()
     const navigate = useNavigate()
 
     useEffect(() => {
-        loadToy()
+        if (toyId) loadToy()
+
     }, [toyId])
 
     function loadToy() {
@@ -38,20 +38,32 @@ export function ToyEdit() {
         let { value, name, type } = ev.target
         if (type === 'number') value = +value
         else if (type === 'checkbox') value = ev.target.checked
-        console.log('value:', value)
 
         setToyToEdit(prevToy => ({ ...prevToy, [name]: value }))
     }
 
+    function handleLabelChange(ev) {
+        let { name, checked } = ev.target
+        if (checked) {
+            setToyToEdit(prevToy => ({ ...prevToy, labels: [...prevToy.labels, name] }))
+        } else {
+            setToyToEdit(prevToy => ({ ...prevToy, labels: prevToy.labels.filter(l => l !== name) }))
+        }
+    }
+
     function onSubmitForm(ev) {
         ev.preventDefault()
+        console.log('toyToEdit:', toyToEdit)
         saveToy({ ...toyToEdit })
+            .then(() => {
+                navigate('/toy')
+            })
             .catch(err => {
                 console.log('err:', err)
             })
     }
 
-    if (!toyToEdit) return ''
+
     return (
         <section className="toy-edit">
             <h2>Toy Edit</h2>
@@ -64,6 +76,14 @@ export function ToyEdit() {
 
                 <label htmlFor="inStock">In Stock?</label>
                 <input onChange={handleChange} checked={toyToEdit.inStock} type="checkbox" id="instock" name="inStock" />
+
+                <div>
+                    Labels:
+                </div>
+                <ul className="labels">
+                    {labels.map((label, idx) =>
+                        <Label key={idx} labels={toyToEdit.labels} label={label} idx={idx} handleLabelChange={handleLabelChange} />)}
+                </ul>
 
                 <button>Save</button>
             </form>

@@ -20,8 +20,9 @@ function get(entityType, entityId) {
 }
 
 function post(entityType, newEntity) {
-    newEntity = {...newEntity}
+    newEntity = { ...newEntity }
     newEntity._id = _makeId()
+    newEntity.createdAt = Date.now()
     return query(entityType).then(entities => {
         entities.push(newEntity)
         _save(entityType, entities)

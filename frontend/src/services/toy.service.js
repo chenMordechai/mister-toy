@@ -10,37 +10,57 @@ export const toyService = {
     getById,
     save,
     remove,
-    // getEmptyToy,
+    getEmptyToy,
     getDefaultFilter,
-    // getDefaultSort
+    getLabels,
+    getDefaultSort
 }
 
 
 function query(filterBy = {}, sortBy = {}) {
+    // console.log('filterBy:', filterBy)
+    console.log('sortBy:', sortBy)
 
     return storageService.query(STORAGE_KEY)
 
-    // .then(toys => {
+    .then(toys => {
     //     const toysData ={
     //         allToysCount : toys.length,
     //         doneToysCount : toys.filter(t=>t.isDone).length,
     //         toysToDisplay:[],
     //         pageCount:0
     //     }
-    //     let toysToDisplay = toys.slice()
-    //     if (filterBy.txt) {
-    //         const regExp = new RegExp(filterBy.txt, 'i')
-    //         toysToDisplay = toysToDisplay.filter(t => regExp.test(t.txt))
-    //     }
+        let toysToDisplay = toys.slice()
+        if (filterBy.name) {
+            const regExp = new RegExp(filterBy.name, 'i')
+            toysToDisplay = toysToDisplay.filter(t => regExp.test(t.name))
+        }
+        
+        if (filterBy.price) {
+            toysToDisplay = toysToDisplay.filter(t => t.price <= filterBy.price)
+        }
 
-    //     if (filterBy.status !== undefined && filterBy.status !== 'all') {
-    //         toysToDisplay = toys.filter(t => t.isDone && filterBy.status === 'done'
-    //         || !t.isDone && filterBy.status === 'active')
-    //     }
+        if (filterBy.inStock !== 'all') {
+            toysToDisplay = toysToDisplay.filter(t => t.inStock && filterBy.inStock === 'inStock'
+            || !t.inStock && filterBy.inStock === 'notInStock')
+        }
 
-    //     if (sortBy.type) {
-    //         toysToDisplay.sort(((t1, t2) => t1.txt.localeCompare(t2.txt) * sortBy.des))
-    //     }
+        if(filterBy.labels.length !== 0){
+            toysToDisplay = toysToDisplay.filter(t => {
+                return filterBy.labels.every(l =>{
+                   return t.labels.includes(l)
+                })
+            })
+        }
+
+        if (sortBy.type) {
+            if(sortBy.type === 'name'){
+                toysToDisplay.sort(((t1, t2) => t1.name.localeCompare(t2.name) * sortBy.desc))
+            }else{
+                console.log('sortBy.type',sortBy.type)
+                toysToDisplay.sort(((t1, t2) => (t1[sortBy.type] - t2[sortBy.type]) * sortBy.desc))
+            }
+        } 
     //     const pageCount = Math.ceil(toysToDisplay.length / PAGE_SIZE)
     //     if (filterBy.pageIdx !== undefined) {
     //         let start = filterBy.pageIdx * PAGE_SIZE // 0 , 3 , 6 , 9
@@ -48,8 +68,8 @@ function query(filterBy = {}, sortBy = {}) {
     //     }
     //     toysData.pageCount = pageCount
     //     toysData.toysToDisplay = toysToDisplay
-    // return toysData
-    // })
+    return toysToDisplay
+    })
 }
 function getById(toyId) {
     return storageService.get(STORAGE_KEY, toyId)
@@ -74,16 +94,24 @@ function save(toy) {
 
 function getEmptyToy() {
     return {
-        txt: '',
-        isDone: false,
+        name: '',
+        inStock: true,
+        price: 0,
+        labels: []
+
     }
 }
 
 function getDefaultFilter() {
-    return { txt: '', status: 'all', pageIdx: 0 }
+    return { name: '', inStock: 'all', labels: [], price :''}
 }
 function getDefaultSort() {
-    return { type: '', des: false }
+    return { type: '' , desc : 1 }
+}
+
+function getLabels() {
+    return ['On wheels', 'Box game', 'Art', 'Baby', 'Doll', 'Puzzle',
+        'Outdoor', 'Battery Powered']
 }
 
 const toy = {

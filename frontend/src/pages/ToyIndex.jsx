@@ -21,7 +21,8 @@ export function ToyIndex() {
     
     
     useEffect(() => {
-        console.log('sortByToEdit:', sortByToEdit)
+        // console.log('sortByToEdit:', sortByToEdit)
+        console.log('filterByToEdit:', filterByToEdit)
         loadToys(filterByToEdit,sortByToEdit)
             .catch(err => {
                 console.log('err:', err)

@@ -2,8 +2,7 @@ import { toyService } from "../services/toy.service"
 
 import {Label} from './Label.jsx'
 
-export function ToyFilter({filterByToEdit , onSetFilterBy , labelsToShow , onSetLabels}) {
-
+export function ToyFilter({filterBy , onSetFilterBy , labelsToShow , onSetLabels}) {
    
     function handleChange(ev){
         let {name , value , type , checked} = ev.target
@@ -24,13 +23,13 @@ export function ToyFilter({filterByToEdit , onSetFilterBy , labelsToShow , onSet
             <h2>Filter</h2>
             <form >
                 <label htmlFor="name">Name:</label>
-                <input onChange={handleChange} value={filterByToEdit.name} type="text" id="name" name="name" />
+                <input onChange={handleChange} value={filterBy.name} type="text" id="name" name="name" />
 
                 <label htmlFor="price">Max Price:</label>
-                <input onChange={handleChange} value={filterByToEdit.price} type="number" id="price" name="price" />
+                <input onChange={handleChange} value={filterBy.price} type="number" id="price" name="price" />
 
                 <label htmlFor="inStock">In Stock?</label>
-                <select onChange={handleChange} name="inStock" id="inStock" value={filterByToEdit.inStock}>
+                <select onChange={handleChange} name="inStock" id="inStock" value={filterBy.inStock}>
                     <option value="all">All</option>
                     <option value="inStock">In Stock</option>
                     <option value="notInStock">Not In Stock</option>
@@ -41,7 +40,7 @@ export function ToyFilter({filterByToEdit , onSetFilterBy , labelsToShow , onSet
                 </div>
                 <ul className="labels">
                     {labelsToShow.map((label, idx) =>
-                        <Label key={idx} labels={filterByToEdit.labels} label={label} idx={idx} handleLabelChange={handleLabelChange} />)}
+                        <Label key={idx} labels={filterBy.labels} label={label} idx={idx} handleLabelChange={handleLabelChange} />)}
                 </ul>
 </form>
 

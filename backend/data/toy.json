@@ -3,7 +3,10 @@
         "name": "Talking Doll",
         "price": 137,
         "_id": "WjthL",
-        "labels": "['Doll', 'Battery Powered', 'Baby']",
+        "labels": [
+            "Doll",
+            "Baby"
+        ],
         "createdAt": 1631031801011,
         "inStock": true
     },
@@ -11,7 +14,10 @@
         "name": "Talking Robot",
         "price": 137,
         "_id": "Wjt3L",
-        "labels": "['Doll', 'Battery Powered', 'Baby']",
+        "labels": [
+            "Battery Powered",
+            "Baby"
+        ],
         "createdAt": 1631031801011,
         "inStock": true
     },
@@ -19,7 +25,10 @@
         "name": "Robot",
         "price": 137,
         "_id": "WjwhL",
-        "labels": "['Doll', 'Battery Powered', 'Baby']",
+        "labels": [
+            "Doll",
+            "Battery Powered"
+        ],
         "createdAt": 1631031801011,
         "inStock": true
     },

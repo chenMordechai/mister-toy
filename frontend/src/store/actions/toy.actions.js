@@ -1,9 +1,10 @@
 import { toyService } from "../../services/toy.service.js";
-import { ADD_TOY, REMOVE_TOY, SET_TOYS, UPDATE_TOY, SET_IS_LOADING } from "../reducers/toy.reducer.js";
+import { ADD_TOY, REMOVE_TOY, SET_TOYS, UPDATE_TOY, SET_IS_LOADING , SET_FILTER_BY, SET_SORT_BY , SET_LABEL} from "../reducers/toy.reducer.js";
 import { store } from "../store.js";
 
-export function loadToys(filterBy , sortBy) {
-    // const { filterBy } = store.getState().toyModule
+export function loadToys() {
+    const { filterBy } = store.getState().toyModule
+    const { sortBy } = store.getState().toyModule
 
     store.dispatch({ type: SET_IS_LOADING, isLoading: true })
     return toyService.query(filterBy , sortBy)
@@ -53,3 +54,19 @@ export function saveToy(toy) {
             throw err
         })
 }
+
+export function setFilterBy(filterBy){
+    store.dispatch({ type: SET_FILTER_BY, filterBy})
+    
+}
+
+export function setSortBy(sortBy){
+    store.dispatch({ type: SET_SORT_BY, sortBy })
+
+}
+
+export function setLabels(label){
+    store.dispatch({ type: SET_LABEL, label })
+
+}
+
